@@ -29,6 +29,16 @@ public class EmpresaRepository : IEmpresaRepository
         _context.Empresas.Add(empresa);
     }
 
+    public async Task RemoverEmpresa(Guid id)
+    {
+        var empresa = await GetEmpresaAsync(id);
+
+        if(empresa != null)
+        {         
+            _context.Empresas.Remove(empresa);         
+        }
+    }
+
     public async Task<IEnumerable<Empresa>> PegarTodasEmpresas()
     {
         var empresas = await _context.Empresas.AsNoTracking().ToListAsync();

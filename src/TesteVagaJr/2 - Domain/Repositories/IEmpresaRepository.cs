@@ -7,19 +7,14 @@ public interface IEmpresaRepository
 {
    
     void CadastrarEmpresa(Empresa empresa);
+    Task RemoverEmpresa(Guid id);
 
     Task<IEnumerable<Empresa>> PegarTodasEmpresas();
     Task<Empresa> GetEmpresaAsync(Guid id);
-
-
     Task<Empresa> GetEmpresaByCnpj(string cnpj);
-
-
     void AdicionarFornecedor(Fornecedor fornecedor);
     void RemoverFornecedor(Guid id);
     Task<Fornecedor> GetFornecedorById(Guid id);
-    
-
     Task<IEnumerable<Fornecedor>> GetAllFornecedoresDeUmaEmpresa(Guid empresaId);
     Task<List<Fornecedor>> FiltrarFornecedorPorNumeroDocumento(string numeroDocumento);
     Task<List<Fornecedor>> FiltrarFornecedorPorNome(string nome);

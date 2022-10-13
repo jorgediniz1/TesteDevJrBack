@@ -20,7 +20,7 @@ public class EmpresaController : MainController
     }
 
     [HttpPost]
-    [Route("/api/v1/empresas/adicionar")]
+    [Route("/api/v1/empresas/adicionar-empresas")]
     public async Task<IActionResult> AdicionarEmpresa([FromBody] CadastrarEmpresaViewModel empresaViewModel)
     {
         try
@@ -45,6 +45,59 @@ public class EmpresaController : MainController
             return StatusCode(500, Responses.ApplicationErrorMessage());
         }
     }
+
+    [HttpDelete]
+    [Route("/api/v1/empresas/remover-empresas/{id}")]
+
+    public async Task<IActionResult> RemoverEmpresa(Guid id)
+    {
+        try
+        {
+            await _empresaService.RemoverEmpresa(id);
+            return Ok(new ResultViewModel
+            {
+                Message = "Empresa removida com sucesso!",
+                Success = true,
+                Data = null
+            });
+        }
+        catch (DomainException ex)
+        {
+            return BadRequest(Responses.DomainErrorMessage(ex.Message));
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, Responses.ApplicationErrorMessage());
+        }
+    }
+
+    [HttpGet]
+    [Route("/api/v1/empresas/pegar-todas-empresas")]
+    public async Task<IActionResult> PegarTodasEmpresas()
+    {
+        var empresas = await _empresaService.PegarTodasEmpresasAsync();
+        try
+        {
+            return Ok(new ResultViewModel()
+            {
+                Message = "Empresas encontradas com sucesso!",
+                Success = true,
+                Data = empresas
+            });
+        }
+
+        catch (DomainException ex)
+        {
+            return BadRequest(Responses.DomainErrorMessage(ex.Message));
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, Responses.ApplicationErrorMessage());
+        }
+    }
+
+
+
     [HttpPost]
     [Route("/api/v1/empresas/adicionar-fornecedor")]
 
@@ -73,30 +126,6 @@ public class EmpresaController : MainController
         }
     }
 
-    [HttpGet]
-    [Route("/api/v1/empresas/pegar-todas")]
-    public async Task<IActionResult> PegarTodasEmpresas()
-    {
-        var empresas = await _empresaService.PegarTodasEmpresasAsync();
-        try
-        {
-            return Ok(new ResultViewModel()
-            {
-                Message = "Empresas encontradas com sucesso!",
-                Success = true,
-                Data = empresas
-            });
-        }
-        
-        catch (DomainException ex)
-        {
-            return BadRequest(Responses.DomainErrorMessage(ex.Message));
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, Responses.ApplicationErrorMessage());
-        }
-    }
 
     [HttpGet]
     [Route("/api/v1/users/filtrar-fornecedor-por-nome")]

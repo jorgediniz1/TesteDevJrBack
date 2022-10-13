@@ -11,7 +11,7 @@ namespace TesteVagaJr.Domain.Validators
             .NotEmpty()
             .WithMessage("O DDD não pode ser vazio")
             
-            .MaximumLength(10)
+            .MaximumLength(3)
             .WithMessage("O DDD deve conter no máximo 3 digitos")
 
             .MinimumLength(2)
@@ -25,8 +25,12 @@ namespace TesteVagaJr.Domain.Validators
             .WithMessage("O número não pode ser vazio")
 
             .NotNull()
-            .WithMessage("O número não pode ser nulo");
-            
+            .WithMessage("O número não pode ser nulo")
+
+            .MaximumLength(10)
+            .WithMessage("O número deve ter no máximo 10 digitos");
+
+
         }
     }
 }

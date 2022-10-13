@@ -7,6 +7,7 @@ public interface IEmpresaService
 {
     Task<FornecedorDto> AdicionarFornecedor(FornecedorDto fornecedorDto);
     Task<EmpresaDto>AdicionarEmpresa(EmpresaDto empresaDTO);
+    Task RemoverEmpresa(Guid id);
     Task<EmpresaDto> PegarEmpresaAsync(Guid empresaId);
     Task<IEnumerable<EmpresaDto>> PegarTodasEmpresasAsync();
     Task<IEnumerable<FornecedorDto>> PegarFornecedoresAsync(Guid empresaId);

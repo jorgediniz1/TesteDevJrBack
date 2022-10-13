@@ -2,13 +2,15 @@
 
 public class EmpresaDto
 {
-    public string Uf { get; private set; }
-    public string NomeFantasia { get; private set; }
-    public string Cnpj { get; private set; }
+    public Guid Id { get; set; }
+    public string Uf { get; set; }
+    public string NomeFantasia { get; set; }
+    public string Cnpj { get; set; }
     public EmpresaDto() {}
 
-    public EmpresaDto(string uf, string nomeFantasia, string cnpj)
+    public EmpresaDto(Guid id, string uf, string nomeFantasia, string cnpj)
     {
+        Id = id;
         Uf = uf;
         NomeFantasia = nomeFantasia;
         Cnpj = cnpj;

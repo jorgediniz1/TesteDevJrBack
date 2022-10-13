@@ -101,4 +101,11 @@ public class EmpresaService : IEmpresaService
         var fornecedores = await _empresaRepository.FiltrarFornecedorPorDataCadastro(dataCadastro);
         return _mapper.Map<List<FornecedorDto>>(fornecedores);
     }
+
+    public async Task RemoverEmpresa(Guid id)
+    {
+       await _empresaRepository.RemoverEmpresa(id);
+
+       await _empresaRepository.UnitOfWork.Commit();
+    }
 }
