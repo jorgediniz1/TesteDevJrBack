@@ -16,15 +16,17 @@ namespace TesteVagaJr.ViewModels
         [MaxLength(14, ErrorMessage = "O número do documento deve ter no máximo 14 digitos")]
         public string NumeroDocumento { get; set; }
 
+        public Guid EmpresaId { get; set; }
+
         [Required]
         [MinLength(1, ErrorMessage = "O tipo de documento deve ter no mínimo 1 digito")]
         [MaxLength(2, ErrorMessage = "O tipo de documento deve ter no máximo 1 digito")]
-        public ETipoDocumento TipoDocumento { get; set; }
+        public string TipoDocumento { get; set; }
 
         [Required]
         [MinLength(1, ErrorMessage = "O tipo de fornecedor deve ter no mínimo 1 digito")]
         [MaxLength(2, ErrorMessage = "O tipo de fornecedor deve ter no máximo 1 digito")]
-        public ETipoFornecedor TipoFornecedor { get; set; }
+        public string TipoFornecedor { get; set; }
 
         //public DateTime DataHoraCadastro { get; set; } Data aplicada automaticamente ao incluir fornecedor.
         public List<Telefone> Telefones { get; set; }

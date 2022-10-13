@@ -18,13 +18,13 @@ public class Fornecedor : Entity
 
     protected Fornecedor() { }
 
-    public Fornecedor(string nome, string numeroDocumento, ETipoDocumento tipoDocumento, ETipoFornecedor tipoFornecedor, DateTime? dataNascimento, string? rg, Guid empresaId)
+    public Fornecedor(string nome, string numeroDocumento, ETipoDocumento tipoDocumento, ETipoFornecedor tipoFornecedor, DateTime dataHoraCadastro, DateTime? dataNascimento, string? rg, Guid empresaId)
     {
         Nome = nome;
         NumeroDocumento = numeroDocumento;
         TipoDocumento = tipoDocumento;
         TipoFornecedor = tipoFornecedor;
-        DataHoraCadastro = DateTime.Now;
+        DataHoraCadastro = DateTime.UtcNow;
         DataNascimento = dataNascimento;
         RG = rg;
         EmpresaId = empresaId;

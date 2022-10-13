@@ -24,6 +24,9 @@ public class Empresa : Entity
         Validate();
     }
 
+
+
+
     public void ChangeUf(string uf)
     {
         Uf = uf;

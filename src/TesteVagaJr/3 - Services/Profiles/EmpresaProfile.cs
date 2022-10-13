@@ -13,5 +13,6 @@ public class EmpresaProfile : Profile
         CreateMap<EmpresaDto, CadastrarEmpresaViewModel>().ReverseMap();
         CreateMap<EmpresaDto, ResultViewModel>().ReverseMap();
         CreateMap<Fornecedor, FornecedorDto>().ReverseMap();
+        CreateMap<FornecedorDto, CadastrarFornecedorViewModel>().ReverseMap();
     }
 }

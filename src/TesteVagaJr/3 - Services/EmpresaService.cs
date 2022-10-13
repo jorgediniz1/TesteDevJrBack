@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation.Validators;
 using TesteVagaJr.Core.Exceptions;
 using TesteVagaJr.Domain.Entities;
 using TesteVagaJr.Domain.Repositories;
@@ -19,9 +20,9 @@ public class EmpresaService : IEmpresaService
 
     public async Task<EmpresaDto> AdicionarEmpresa(EmpresaDto empresaDto)
     {
-        var empresaExists = await _empresaRepository.GetEmpresaByCnpj(empresaDto.Cnpj);
+        var empresaExists = await _empresaRepository.PegarEmpresaPorCnpj(empresaDto.Cnpj);
 
-        if(empresaExists != null)
+        if (empresaExists != null)
         {
             throw new DomainException("Já existe empresa cadastrada com o cnpj informado");
         }
@@ -29,33 +30,62 @@ public class EmpresaService : IEmpresaService
         var empresa = _mapper.Map<Empresa>(empresaDto);
         empresa.Validate();
 
-         _empresaRepository.CadastrarEmpresa(empresa);
-         
-         var success = await _empresaRepository.UnitOfWork.Commit();
+        _empresaRepository.CadastrarEmpresa(empresa);
 
-         if(success)
-         {
+        var success = await _empresaRepository.UnitOfWork.Commit();
+
+        if (success)
+        {
             return empresaDto;
-         }
+        }
 
-         return default;    
+        return default;
 
     }
 
     public async Task<FornecedorDto> AdicionarFornecedor(FornecedorDto fornecedorDto)
     {
-        var fornecedorExists = await _empresaRepository.GetFornecedorById(fornecedorDto.Id);
+        fornecedorDto.DataHoraCadastro = DateTime.Now;
+        var fornecedorExists = await _empresaRepository.PegarFornecedorPorId(fornecedorDto.Id);
+        var empresa = await _empresaRepository.PegarEmpresaByIdAsync(fornecedorDto.EmpresaId);
+
+        if (empresa == null)
+        {
+            throw new DomainException("A empresa que você tentou cadastrar o fornecedor não existe!");
+        }
 
         if (fornecedorExists != null)
         {
             throw new DomainException("O fornecedor informado já existe nesta empresa.");
         }
 
-        var fornecedor = _mapper.Map<Fornecedor>(fornecedorDto);
+        if (fornecedorDto.TipoFornecedor == ETipoFornecedor.Pf && fornecedorDto.RG != null && fornecedorDto.DataNascimento != null)
+        {
+            var birthdate = fornecedorDto.DataNascimento.Value.Year;
+            var today = fornecedorDto.DataHoraCadastro.Year;
+            var idade = today - birthdate;
+
+            if (idade < 18) throw new DomainException("O fornecedor pessoa fisica não pode ser menor de idade");
+        }else if(fornecedorDto.RG == null)
+        {
+          
+        }else if(fornecedorDto.DataNascimento == null)
+        {
+            
+        }
+
+        if(fornecedorDto.TipoFornecedor == ETipoFornecedor.Pj)
+        {
+            fornecedorDto.RG = null;
+            fornecedorDto.DataNascimento = null;
+        }
+
+        var fornecedor = new Fornecedor(fornecedorDto.Nome, fornecedorDto.NumeroDocumento, fornecedorDto.TipoDocumento,
+        fornecedorDto.TipoFornecedor, fornecedorDto.DataHoraCadastro, fornecedorDto.DataNascimento, fornecedorDto.RG, fornecedorDto.EmpresaId);
+
         fornecedor.Validate();
 
         _empresaRepository.AdicionarFornecedor(fornecedor);
-
         var success = await _empresaRepository.UnitOfWork.Commit();
 
         if (success)
@@ -65,7 +95,7 @@ public class EmpresaService : IEmpresaService
 
         return default;
     }
-    
+
 
     public Task<EmpresaDto> PegarEmpresaAsync(Guid empresaId)
     {
@@ -75,13 +105,15 @@ public class EmpresaService : IEmpresaService
     public async Task<IEnumerable<EmpresaDto>> PegarTodasEmpresasAsync()
     {
         var empresas = await _empresaRepository.PegarTodasEmpresas();
-       
+
         return _mapper.Map<IEnumerable<EmpresaDto>>(empresas);
     }
 
-    public Task<IEnumerable<FornecedorDto>> PegarFornecedoresAsync(Guid empresaId)
+    public async Task<IEnumerable<FornecedorDto>> PegarTodosFornecedoresDeUmaEmpresa(Guid empresaId)
     {
-        throw new NotImplementedException();
+        var fornecedores = await _empresaRepository.PegarTodosFornecedoresDeUmaEmpresa(empresaId);
+
+        return _mapper.Map<IEnumerable<FornecedorDto>>(fornecedores);
     }
 
     public async Task<List<FornecedorDto>> FiltrarFornecedorPorNome(string nome)
@@ -104,8 +136,8 @@ public class EmpresaService : IEmpresaService
 
     public async Task RemoverEmpresa(Guid id)
     {
-       await _empresaRepository.RemoverEmpresa(id);
+        await _empresaRepository.RemoverEmpresa(id);
 
-       await _empresaRepository.UnitOfWork.Commit();
+        await _empresaRepository.UnitOfWork.Commit();
     }
 }

@@ -12,7 +12,7 @@ using TesteVagaJr.Infrastructure;
 namespace TesteVagaJr.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221013082534_Initial")]
+    [Migration("20221013181801_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

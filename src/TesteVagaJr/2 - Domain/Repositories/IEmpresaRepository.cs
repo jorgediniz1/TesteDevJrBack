@@ -10,12 +10,13 @@ public interface IEmpresaRepository
     Task RemoverEmpresa(Guid id);
 
     Task<IEnumerable<Empresa>> PegarTodasEmpresas();
-    Task<Empresa> GetEmpresaAsync(Guid id);
-    Task<Empresa> GetEmpresaByCnpj(string cnpj);
+    Task<Empresa> PegarEmpresaByIdAsync(Guid id);
+    Task<Empresa> PegarEmpresaPorCnpj(string cnpj);
+    void UpdateEmpresaAsync(Empresa empresa);
     void AdicionarFornecedor(Fornecedor fornecedor);
     void RemoverFornecedor(Guid id);
-    Task<Fornecedor> GetFornecedorById(Guid id);
-    Task<IEnumerable<Fornecedor>> GetAllFornecedoresDeUmaEmpresa(Guid empresaId);
+    Task<Fornecedor> PegarFornecedorPorId(Guid id);
+    Task<IEnumerable<Fornecedor>> PegarTodosFornecedoresDeUmaEmpresa(Guid empresaId);
     Task<List<Fornecedor>> FiltrarFornecedorPorNumeroDocumento(string numeroDocumento);
     Task<List<Fornecedor>> FiltrarFornecedorPorNome(string nome);
     Task<List<Fornecedor>> FiltrarFornecedorPorDataCadastro(string dataCadastro);

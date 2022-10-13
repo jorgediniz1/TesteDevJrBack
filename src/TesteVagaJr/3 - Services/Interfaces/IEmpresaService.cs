@@ -10,7 +10,7 @@ public interface IEmpresaService
     Task RemoverEmpresa(Guid id);
     Task<EmpresaDto> PegarEmpresaAsync(Guid empresaId);
     Task<IEnumerable<EmpresaDto>> PegarTodasEmpresasAsync();
-    Task<IEnumerable<FornecedorDto>> PegarFornecedoresAsync(Guid empresaId);
+    Task<IEnumerable<FornecedorDto>> PegarTodosFornecedoresDeUmaEmpresa(Guid empresaId);
     Task<List<FornecedorDto>> FiltrarFornecedorPorNome(string nome);
     Task<List<FornecedorDto>> FiltrarFornecedorPorNumeroDocumento(string numeroDocumento);
     Task<List<FornecedorDto>> FiltrarFornecedorPorDataCadastro(string dataCadastro);

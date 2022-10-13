@@ -31,40 +31,40 @@ public class EmpresaRepository : IEmpresaRepository
 
     public async Task RemoverEmpresa(Guid id)
     {
-        var empresa = await GetEmpresaAsync(id);
+        var empresa = await PegarEmpresaByIdAsync(id);
 
-        if(empresa != null)
-        {         
-            _context.Empresas.Remove(empresa);         
+        if (empresa != null)
+        {
+            _context.Empresas.Remove(empresa);
         }
     }
 
     public async Task<IEnumerable<Empresa>> PegarTodasEmpresas()
     {
         var empresas = await _context.Empresas.AsNoTracking().ToListAsync();
-        
+
         return empresas;
     }
 
-    public async Task<Empresa> GetEmpresaAsync(Guid id)
+    public async Task<Empresa> PegarEmpresaByIdAsync(Guid id)
     {
         var empresa = await _context.Empresas.SingleOrDefaultAsync(x => x.Id == id);
-        
+
         return empresa;
     }
 
-    public async Task<Empresa> GetEmpresaByCnpj(string cnpj)
+    public async Task<Empresa> PegarEmpresaPorCnpj(string cnpj)
     {
         var empresa = await _context.Empresas
                                 .Where(x => x.Cnpj == cnpj)
                                 .AsNoTracking()
                                 .ToListAsync();
-        
+
         return empresa.FirstOrDefault();
 
     }
 
-    public async Task<Fornecedor> GetFornecedorById(Guid id)
+    public async Task<Fornecedor> PegarFornecedorPorId(Guid id)
     {
         var fornecedor = await _context.Fornecedores
             .Where(x => x.Id == id)
@@ -75,10 +75,10 @@ public class EmpresaRepository : IEmpresaRepository
 
     }
 
-    public async Task<IEnumerable<Fornecedor>> GetAllFornecedoresDeUmaEmpresa(Guid empresaId)
+    public async Task<IEnumerable<Fornecedor>> PegarTodosFornecedoresDeUmaEmpresa(Guid empresaId)
     {
         var fornecedores = await _context.Fornecedores.Where(x => x.EmpresaId == empresaId).ToListAsync();
-        
+
         return fornecedores;
     }
 
@@ -88,7 +88,7 @@ public class EmpresaRepository : IEmpresaRepository
                                                                        .AsNoTracking()
                                                                        .ToListAsync();
         return fornecedores;
-                                                                        
+
     }
 
     public async Task<List<Fornecedor>> FiltrarFornecedorPorNumeroDocumento(string numeroDocumento)
@@ -105,5 +105,10 @@ public class EmpresaRepository : IEmpresaRepository
                                                                         .AsNoTracking()
                                                                         .ToListAsync();
         return fornecedores;
+    }
+
+    public async void UpdateEmpresaAsync(Empresa empresa)
+    {
+        _context.Empresas.Update(empresa);
     }
 }

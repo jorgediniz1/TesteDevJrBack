@@ -85,7 +85,6 @@ public class EmpresaController : MainController
                 Data = empresas
             });
         }
-
         catch (DomainException ex)
         {
             return BadRequest(Responses.DomainErrorMessage(ex.Message));
@@ -109,6 +108,8 @@ public class EmpresaController : MainController
 
             var fornecedorAdicionar = await _empresaService.AdicionarFornecedor(fornecedorDto);
 
+
+
             return Ok(new ResultViewModel
             {
                 Message = "Fornecedor adicionado com sucesso!",
@@ -119,6 +120,31 @@ public class EmpresaController : MainController
         catch (DomainException ex)
         {
             return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, Responses.ApplicationErrorMessage());
+        }
+    }
+
+    [HttpGet]
+    [Route("/api/v1/empresas/pegar-todos-fornecedores-empresa/{id}")]
+    public async Task<IActionResult> PegarTodosFornecedoresDaEmpresa(Guid id)
+    {
+        var fornecedores = await _empresaService.PegarTodosFornecedoresDeUmaEmpresa(id);
+        try
+        {
+            return Ok(new ResultViewModel()
+            {
+                Message = "Fornecedores encontrados com sucesso!",
+                Success = true,
+                Data = fornecedores
+            });
+        }
+
+        catch (DomainException ex)
+        {
+            return BadRequest(Responses.DomainErrorMessage(ex.Message));
         }
         catch (Exception)
         {
