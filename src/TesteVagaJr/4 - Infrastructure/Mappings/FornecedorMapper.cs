@@ -12,8 +12,32 @@ public class FornecedorMapper : IEntityTypeConfiguration<Fornecedor>
 
         builder.ToTable("Fornecedores");
 
+        builder.Property(x => x.Nome)
+            .HasColumnType("VARCHAR(80)")
+            .IsRequired();
+
+            
+
+        builder.Property(x => x.NumeroDocumento)
+            .IsRequired()
+            .HasColumnType("VARCHAR(14)")
+            .HasMaxLength(14);
+
+        builder.Property(x => x.TipoDocumento)
+            .IsRequired()
+            .HasColumnType("INT");
+
+        builder.Property(x => x.TipoFornecedor)
+            .IsRequired()
+            .HasColumnType("INT");
+                  
+        
         builder.Property(x => x.DataHoraCadastro)
             .IsRequired();
+
+        builder.Property(x => x.DataNascimento)
+            .IsRequired(false);
+            
 
         builder.Property(x => x.RG)
             .HasColumnType("VARCHAR(20)")
@@ -21,7 +45,7 @@ public class FornecedorMapper : IEntityTypeConfiguration<Fornecedor>
 
         builder.HasOne(x => x.Empresa)
             .WithMany(x => x.Fornecedores)
-            .HasForeignKey(x => x.EmpresaId);
+            .HasForeignKey(x => x.EmpresaId).IsRequired();
     
     }
 }

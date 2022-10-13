@@ -12,23 +12,24 @@ public class Fornecedor : Entity
     public DateTime DataHoraCadastro { get; set; }
     public List<Telefone> Telefones { get; private set; }
     public DateTime? DataNascimento { get; private set; }
-    public string RG { get; private set; }
-
+    public string? RG { get; private set; }
     public Guid EmpresaId { get; private set; }
     public Empresa Empresa { get; set; }
 
     protected Fornecedor() { }
 
-    public Fornecedor(string nome, string numeroDocumento, ETipoDocumento tipoDocumento, DateTime? dataNascimento, string? rg, Guid empresaId)
+    public Fornecedor(string nome, string numeroDocumento, ETipoDocumento tipoDocumento, ETipoFornecedor tipoFornecedor, DateTime? dataNascimento, string? rg, Guid empresaId)
     {
         Nome = nome;
         NumeroDocumento = numeroDocumento;
         TipoDocumento = tipoDocumento;
+        TipoFornecedor = tipoFornecedor;
         DataHoraCadastro = DateTime.Now;
         DataNascimento = dataNascimento;
         RG = rg;
-
         EmpresaId = empresaId;
+        _errors = new List<string>();
+        Validate();
     }
 
     public void AdicionarTelefone(string DDD, string numero)

@@ -61,19 +61,22 @@ namespace TesteVagaJr.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("NumeroDocumento")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("VARCHAR(14)");
 
                     b.Property<string>("RG")
                         .HasColumnType("VARCHAR(20)");
 
                     b.Property<int>("TipoDocumento")
-                        .HasColumnType("int");
+                        .HasColumnType("INT");
 
                     b.Property<int>("TipoFornecedor")
-                        .HasColumnType("int");
+                        .HasColumnType("INT");
 
                     b.HasKey("Id");
 
@@ -90,7 +93,7 @@ namespace TesteVagaJr.Migrations
 
                     b.Property<string>("DDD")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(2)");
+                        .HasColumnType("VARCHAR(3)");
 
                     b.Property<Guid?>("FornecedorId")
                         .HasColumnType("uniqueidentifier");
@@ -103,7 +106,7 @@ namespace TesteVagaJr.Migrations
 
                     b.HasIndex("FornecedorId");
 
-                    b.ToTable("Telefone", (string)null);
+                    b.ToTable("Telefones", (string)null);
                 });
 
             modelBuilder.Entity("TesteVagaJr.Domain.Entities.Fornecedor", b =>

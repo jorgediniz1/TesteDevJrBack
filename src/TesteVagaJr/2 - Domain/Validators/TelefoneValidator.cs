@@ -10,6 +10,12 @@ namespace TesteVagaJr.Domain.Validators
             RuleFor(x => x.DDD)
             .NotEmpty()
             .WithMessage("O DDD não pode ser vazio")
+            
+            .MaximumLength(10)
+            .WithMessage("O DDD deve conter no máximo 3 digitos")
+
+            .MinimumLength(2)
+            .WithMessage("O DDD deve conter no mínimo 2 digitos")
 
             .NotNull()
             .WithMessage("O DDD não pode ser nulo");

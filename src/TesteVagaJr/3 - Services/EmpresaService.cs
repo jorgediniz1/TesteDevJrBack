@@ -17,7 +17,7 @@ public class EmpresaService : IEmpresaService
         _mapper = mapper;
     }
 
-    public async Task<EmpresaDto> AddEmpresaAsync(EmpresaDto empresaDto)
+    public async Task<EmpresaDto> AdicionarEmpresa(EmpresaDto empresaDto)
     {
         var empresaExists = await _empresaRepository.GetEmpresaByCnpj(empresaDto.Cnpj);
 
@@ -67,22 +67,38 @@ public class EmpresaService : IEmpresaService
     }
     
 
-    public Task<EmpresaDto> GetEmpresaAsync(Guid empresaId)
+    public Task<EmpresaDto> PegarEmpresaAsync(Guid empresaId)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<EmpresaDto>> GetAllEmpresasAsync()
+    public async Task<IEnumerable<EmpresaDto>> PegarTodasEmpresasAsync()
     {
-        var empresas = await _empresaRepository.GetAllEmpresasAsync();
+        var empresas = await _empresaRepository.PegarTodasEmpresas();
        
         return _mapper.Map<IEnumerable<EmpresaDto>>(empresas);
     }
 
-    public Task<IEnumerable<FornecedorDto>> GetFornecedorAsync(Guid empresaId)
+    public Task<IEnumerable<FornecedorDto>> PegarFornecedoresAsync(Guid empresaId)
     {
         throw new NotImplementedException();
     }
 
-    
+    public async Task<List<FornecedorDto>> FiltrarFornecedorPorNome(string nome)
+    {
+        var fornecedores = await _empresaRepository.FiltrarFornecedorPorNome(nome);
+        return _mapper.Map<List<FornecedorDto>>(fornecedores);
+    }
+
+    public async Task<List<FornecedorDto>> FiltrarFornecedorPorNumeroDocumento(string numeroDocumento)
+    {
+        var fornecedor = await _empresaRepository.FiltrarFornecedorPorNumeroDocumento(numeroDocumento);
+        return _mapper.Map<List<FornecedorDto>>(fornecedor);
+    }
+
+    public async Task<List<FornecedorDto>> FiltrarFornecedorPorDataCadastro(string dataCadastro)
+    {
+        var fornecedores = await _empresaRepository.FiltrarFornecedorPorDataCadastro(dataCadastro);
+        return _mapper.Map<List<FornecedorDto>>(fornecedores);
+    }
 }

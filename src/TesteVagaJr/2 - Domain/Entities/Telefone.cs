@@ -1,4 +1,7 @@
-﻿namespace TesteVagaJr.Domain.Entities;
+﻿using TesteVagaJr.Core.Exceptions;
+using TesteVagaJr.Domain.Validators;
+
+namespace TesteVagaJr.Domain.Entities;
 
 public class Telefone : Entity
 {
@@ -12,10 +15,28 @@ public class Telefone : Entity
     {
         this.DDD = DDD;
         this.Numero = numero;
+
+        _errors = new List<string>();
+        Validate();
     }
+
+
 
     public override bool Validate()
     {
-        throw new NotImplementedException();
+        var validator = new TelefoneValidator();
+        var validation = validator.Validate(this);
+
+        if (!validation.IsValid)
+        {
+            foreach (var error in validation.Errors)
+
+                _errors.Add(error.ErrorMessage);
+
+            throw new DomainException("Alguns campos estão inválidos", _errors);
+
+        }
+
+        return true;
     }
 }

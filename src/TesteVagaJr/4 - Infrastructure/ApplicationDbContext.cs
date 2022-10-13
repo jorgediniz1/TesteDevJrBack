@@ -10,6 +10,9 @@ public class ApplicationDbContext : DbContext, IUnitOfWork
 
     public DbSet<Fornecedor> Fornecedores { get; set; }
     public DbSet<Empresa> Empresas { get; set; }
+    public DbSet<Telefone> Telefones { get; set; }
+
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

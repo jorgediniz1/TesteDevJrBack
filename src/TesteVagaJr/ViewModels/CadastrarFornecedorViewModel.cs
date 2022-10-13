@@ -6,14 +6,33 @@ namespace TesteVagaJr.ViewModels
 
     public class CadastrarFornecedorViewModel
     {
-        public string Nome { get; private set; }
-        public string NumeroDocumento { get; private set; }
-        public ETipoDocumento TipoDocumento { get; private set; }
-        public ETipoFornecedor TipoFornecedor { get; private set; }
-        public DateTime DataHoraCadastro { get; set; }
-        public List<Telefone> Telefones { get; private set; }
-        public DateTime? DataNascimento { get; private set; }
-        public string RG { get; private set; }
+        [Required(ErrorMessage = "O nome não pode ser vazio.")]
+        [MinLength(2, ErrorMessage = "O nome deve ter no mínimo 2 caracteres")]
+        [MaxLength(80, ErrorMessage = "O nome deve ter no máximo 80 caracteres")]
+        public string Nome { get; set; }
+
+        [Required]
+        [MinLength(11, ErrorMessage = "O número do documento deve ter no mínimo 11 digitos")]
+        [MaxLength(14, ErrorMessage = "O número do documento deve ter no máximo 14 digitos")]
+        public string NumeroDocumento { get; set; }
+
+        [Required]
+        [MinLength(1, ErrorMessage = "O tipo de documento deve ter no mínimo 1 digito")]
+        [MaxLength(2, ErrorMessage = "O tipo de documento deve ter no máximo 1 digito")]
+        public ETipoDocumento TipoDocumento { get; set; }
+
+        [Required]
+        [MinLength(1, ErrorMessage = "O tipo de fornecedor deve ter no mínimo 1 digito")]
+        [MaxLength(2, ErrorMessage = "O tipo de fornecedor deve ter no máximo 1 digito")]
+        public ETipoFornecedor TipoFornecedor { get; set; }
+
+        //public DateTime DataHoraCadastro { get; set; } Data aplicada automaticamente ao incluir fornecedor.
+        public List<Telefone> Telefones { get; set; }
+
+        public DateTime? DataNascimento { get; set; }
+
+        [MaxLength(10, ErrorMessage = "O RG deve ter no máximo 10 digitos")]
+        public string RG { get; set; } 
 
     }
 

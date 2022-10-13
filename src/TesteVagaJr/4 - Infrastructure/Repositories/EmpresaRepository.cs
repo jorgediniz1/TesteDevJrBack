@@ -29,7 +29,7 @@ public class EmpresaRepository : IEmpresaRepository
         _context.Empresas.Add(empresa);
     }
 
-    public async Task<IEnumerable<Empresa>> GetAllEmpresasAsync()
+    public async Task<IEnumerable<Empresa>> PegarTodasEmpresas()
     {
         var empresas = await _context.Empresas.AsNoTracking().ToListAsync();
         
@@ -68,8 +68,32 @@ public class EmpresaRepository : IEmpresaRepository
     public async Task<IEnumerable<Fornecedor>> GetAllFornecedoresDeUmaEmpresa(Guid empresaId)
     {
         var fornecedores = await _context.Fornecedores.Where(x => x.EmpresaId == empresaId).ToListAsync();
+        
         return fornecedores;
     }
 
+    public async Task<List<Fornecedor>> FiltrarFornecedorPorNome(string nome)
+    {
+        var fornecedores = await _context.Fornecedores.Where(x => x.Nome.ToLower().Contains(nome.ToLower()))
+                                                                       .AsNoTracking()
+                                                                       .ToListAsync();
+        return fornecedores;
+                                                                        
+    }
 
+    public async Task<List<Fornecedor>> FiltrarFornecedorPorNumeroDocumento(string numeroDocumento)
+    {
+        var fornecedor = await _context.Fornecedores.Where(x => x.NumeroDocumento.Contains(numeroDocumento))
+                                                                       .AsNoTracking()
+                                                                       .ToListAsync();
+        return fornecedor;
+    }
+
+    public async Task<List<Fornecedor>> FiltrarFornecedorPorDataCadastro(string dataCadastro)
+    {
+        var fornecedores = await _context.Fornecedores.Where(x => x.DataHoraCadastro.ToString().Contains(dataCadastro))
+                                                                        .AsNoTracking()
+                                                                        .ToListAsync();
+        return fornecedores;
+    }
 }

@@ -10,10 +10,10 @@ namespace TesteVagaJr.Infrastructure.Mappings
         {
             builder.HasKey(x => x.Id);
 
-            builder.ToTable("Telefone");
+            builder.ToTable("Telefones");
 
             builder.Property(x => x.DDD)
-            .HasColumnType("VARCHAR(2)")
+            .HasColumnType("VARCHAR(3)")
             .IsRequired();
 
             builder.Property(x => x.Numero)

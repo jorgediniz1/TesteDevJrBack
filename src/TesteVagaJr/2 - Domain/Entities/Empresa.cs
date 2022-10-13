@@ -19,6 +19,7 @@ public class Empresa : Entity
         Uf = uf;
         NomeFantasia = nomeFantasia;
         Cnpj = cnpj;
+
         _errors = new List<string>();
         Validate();
     }

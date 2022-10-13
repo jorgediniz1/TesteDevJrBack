@@ -37,6 +37,10 @@ public class FornecedorValidator : AbstractValidator<Fornecedor>
             .NotNull()
             .WithMessage("A data e hora de cadastro não podem ser nulas");
 
+        //RuleFor(x => x.DataNascimento)
+        //    .Must(FornecedorPfMaiorDeIdade)
+        //    .WithMessage("O fornecedor pf deve ser maior de idade");
+
 
         RuleFor(x => x.TipoDocumento)
             .NotEmpty()
@@ -60,4 +64,8 @@ public class FornecedorValidator : AbstractValidator<Fornecedor>
             .NotNull()
             .WithMessage("Os telefones não podem ser nulos");
     }
+    //private static bool FornecedorPfMaiorDeIdade(DateTime dataNascimento)
+    //{
+    //    return dataNascimento <= DateTime.Now.AddYears(-18); 
+    //}
 }
